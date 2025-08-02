@@ -99,6 +99,20 @@
     display: none;
     z-index: 9999;
   }
+
+  /* Welcome GIF */
+  #welcomeGif {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 180px;
+    max-height: 100px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
+    pointer-events: none;
+    user-select: none;
+    z-index: 10000;
+  }
 </style>
 </head>
 <body>
@@ -113,6 +127,8 @@
 </div>
 
 <iframe id="anuraosFrame" src=""></iframe>
+
+<img id="welcomeGif" src="welcome.gif" alt="Welcome Animation" />
 
 <script>
   function setCookie(name, value, days) {
@@ -155,7 +171,7 @@
         setCookie('licenseTier', licenses[key], 30);
 
         document.getElementById('container').style.display = 'none';
-//CHANGE LINK HERE
+
         document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
         document.getElementById('anuraosFrame').style.display = 'block';
       } else {
@@ -172,7 +188,7 @@
   window.onload = function() {
     const savedKey = getCookie('licenseKey');
     const savedTier = getCookie('licenseTier');
-//CHANGE LINK HERE
+
     if (savedKey && savedTier) {
       document.getElementById('container').style.display = 'none';
       document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
