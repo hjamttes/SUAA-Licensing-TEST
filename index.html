@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Student Union AnuraOS Access</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0; padding: 0;
+    background: #121212;
+    color: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+  }
+  #license-form {
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+  }
+  input {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: none;
+  }
+  button {
+    width: 100%;
+    padding: 12px;
+    font-size: 1.2em;
+    background: #28a745;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: white;
+  }
+  button:hover {
+    background: #218838;
+  }
+  #message {
+    margin-top: 15px;
+    min-height: 1.3em;
+  }
+  iframe {
+    width: 100%;
+    height: 85vh;
+    border: none;
+    display: none;
+    margin-top: 20px;
+    border-radius: 8px;
+  }
+</style>
+</head>
+<body>
+
+<div id="license-form">
+  <h1>Enter Your License Key</h1>
+  <input id="licenseKey" placeholder="XXXX-XXXX-XXXX" autocomplete="off" />
+  <button onclick="validateLicense()">Access AnuraOS</button>
+  <div id="message"></div>
+</div>
+
+<iframe id="anuraosFrame" src=""></iframe>
+
+<script>
+  async function validateLicense() {
+    const keyInput = document.getElementById('licenseKey');
+    const key = keyInput.value.trim().toUpperCase();
+    const message = document.getElementById('message');
+
+    message.style.color = '#eee';
+    message.textContent = 'Validating license key...';
+
+    // Basic format check: 4 chars - 4 chars - 4 chars
+    if (!/^[A-Z]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
+      message.style.color = 'orange';
+      message.textContent = 'Invalid format. Please enter XXXX-XXXX-XXXX.';
+      return;
+    }
+
+    try {
+      // Update this URL if you host licenses.json elsewhere
+      const response = await fetch('licenses.json');
+      if (!response.ok) throw new Error('License database not reachable.');
+
+      const licenses = await response.json();
+
+      if (licenses[key]) {
+        message.style.color = '#28a745';
+        message.textContent = 'License valid! Loading AnuraOS...';
+
+        // Hide form, show iframe
+        document.getElementById('license-form').style.display = 'none';
+
+        // Store license tier locally if you want to use later
+        localStorage.setItem('licenseTier', licenses[key]);
+
+        // Change this to your actual AnuraOS URL!
+        document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
+        document.getElementById('anuraosFrame').style.display = 'block';
+
+      } else {
+        message.style.color = 'red';
+        message.textContent = 'License key not recognized. Please try again.';
+      }
+    } catch (err) {
+      message.style.color = 'red';
+      message.textContent = 'Error validating license. Please check your internet connection.';
+      console.error(err);
+    }
+  }
+</script>
+
+</body>
+</html>
