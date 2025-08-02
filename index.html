@@ -1,200 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Student Union AnuraOS Access</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
-<style>
-  /* Reset & base */
-  * {
-    box-sizing: border-box;
-  }
-  html, body {
-    height: 100%;
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
-    color: #202124;
-    overflow: hidden;
-  }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Union AnuraOS Access</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    html, body {
+      height: 100%;
+      margin: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
+      color: #202124;
+      overflow: hidden;
+    }
 
-  /* Centered container */
-  #container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    padding: 1rem;
-  }
+    #container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      padding: 1rem;
+    }
 
-  /* Card style */
-  #license-card {
-    background: white;
-    box-shadow: 0 8px 24px rgba(32, 33, 36, 0.28);
-    border-radius: 12px;
-    padding: 2rem 2.5rem;
-    width: 360px;
-    max-width: 90vw;
-    text-align: center;
-  }
+    #license-card {
+      background: white;
+      box-shadow: 0 8px 24px rgba(32, 33, 36, 0.28);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      width: 360px;
+      max-width: 90vw;
+      text-align: center;
+    }
 
-  h1 {
-    margin: 0 0 1.25rem;
-    font-weight: 500;
-    font-size: 1.5rem;
-    color: #1a73e8; /* Anura blue accent */
-  }
+    h1 {
+      margin: 0 0 1.25rem;
+      font-weight: 500;
+      font-size: 1.5rem;
+      color: #1a73e8;
+    }
 
-  input {
-    width: 100%;
-    padding: 12px 14px;
-    font-size: 1rem;
-    border: 1.5px solid #dadce0;
-    border-radius: 8px;
-    transition: border-color 0.2s ease;
-    outline-offset: 2px;
-    outline-color: transparent;
-    font-weight: 400;
-  }
+    input {
+      width: 100%;
+      padding: 12px 14px;
+      font-size: 1rem;
+      border: 1.5px solid #dadce0;
+      border-radius: 8px;
+      transition: border-color 0.2s ease;
+      outline-offset: 2px;
+      font-weight: 400;
+    }
 
-  input:focus {
-    border-color: #1a73e8;
-    outline-color: #aecbfa;
-  }
+    input:focus {
+      border-color: #1a73e8;
+      outline-color: #aecbfa;
+    }
 
-  button {
-    margin-top: 1.25rem;
-    width: 100%;
-    padding: 12px 0;
-    background: #1a73e8;
-    border: none;
-    border-radius: 8px;
-    color: white;
-    font-size: 1.1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    box-shadow: 0 3px 6px rgba(26, 115, 232, 0.3);
-  }
+    button {
+      margin-top: 1.25rem;
+      width: 100%;
+      padding: 12px 0;
+      background: #1a73e8;
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-size: 1.1rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+      box-shadow: 0 3px 6px rgba(26, 115, 232, 0.3);
+    }
 
-  button:hover {
-    background: #155ab6;
-    box-shadow: 0 4px 12px rgba(21, 90, 182, 0.5);
-  }
+    button:hover {
+      background: #155ab6;
+      box-shadow: 0 4px 12px rgba(21, 90, 182, 0.5);
+    }
 
-  #message {
-    margin-top: 1rem;
-    min-height: 1.4em;
-    font-weight: 500;
-  }
+    #message {
+      margin-top: 1rem;
+      min-height: 1.4em;
+      font-weight: 500;
+    }
 
-  /* Fullscreen iframe */
-  #anuraosFrame {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    border: none;
-    display: none;
-    z-index: 9999;
-  }
+    #anuraosFrame {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      border: none;
+      display: none;
+      z-index: 9999;
+    }
 
-  /* Welcome GIF */
-  #welcomeGif {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    max-width: 1800px;
-    max-height: 250px;
-    border-radius: 8px;
-    pointer-events: none;
-    user-select: none;
-    z-index: 10000;
-  }
-</style>
+    #welcomeGif {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 1800px;
+      max-height: 250px;
+      border-radius: 8px;
+      pointer-events: none;
+      user-select: none;
+      z-index: 10000;
+    }
+  </style>
 </head>
 <body>
 
-<div id="container">
-  <div id="license-card">
-    <h1>Enter Your License Key</h1>
-    <input id="licenseKey" placeholder="XXXX-XXXX-XXXX" autocomplete="off" />
-    <button onclick="validateLicense()">Access AnuraOS</button>
-    <div id="message"></div>
+  <div id="container">
+    <div id="license-card">
+      <h1>Enter Your License Key</h1>
+      <input id="licenseKey" placeholder="XXXX-XXXX-XXXX" autocomplete="off" />
+      <button onclick="validateLicense()">Access AnuraOS</button>
+      <div id="message"></div>
+    </div>
   </div>
-</div>
 
-<iframe id="anuraosFrame" src=""></iframe>
+  <iframe id="anuraosFrame" src=""></iframe>
+  <img id="welcomeGif" src="welcome.gif" alt="Welcome Animation" />
 
-<img id="welcomeGif" src="welcome.gif" alt="Welcome Animation" />
-
-<script>
-  function setCookie(name, value, days) {
-    const expires = new Date(Date.now() + days*864e5).toUTCString();
-    document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
-  }
-
-  function getCookie(name) {
-    return document.cookie.split('; ').reduce((r, v) => {
-      const parts = v.split('=');
-      return parts[0] === name ? decodeURIComponent(parts[1]) : r
-    }, '');
-  }
-
-  async function validateLicense() {
-    const keyInput = document.getElementById('licenseKey');
-    const key = keyInput.value.trim().toUpperCase();
-    const message = document.getElementById('message');
-
-    message.style.color = '#202124';
-    message.textContent = 'Validating license key...';
-
-    if (!/^[A-Z]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
-      message.style.color = '#fbbc04'; // amber/yellowish
-      message.textContent = 'Invalid format. Please enter XXXX-XXXX-XXXX.';
-      return;
+  <script>
+    function setCookie(name, value, days) {
+      const expires = new Date(Date.now() + days*864e5).toUTCString();
+      document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
     }
 
-    try {
-      const response = await fetch('licenses.json');
-      if (!response.ok) throw new Error('License database not reachable.');
+    function getCookie(name) {
+      return document.cookie.split('; ').reduce((r, v) => {
+        const parts = v.split('=');
+        return parts[0] === name ? decodeURIComponent(parts[1]) : r
+      }, '');
+    }
 
-      const licenses = await response.json();
+    async function validateLicense() {
+      const keyInput = document.getElementById('licenseKey');
+      const key = keyInput.value.trim().toUpperCase();
+      const message = document.getElementById('message');
 
-      if (licenses[key]) {
-        message.style.color = '#188038'; // green
-        message.textContent = 'License valid! Loading AnuraOS...';
+      message.style.color = '#202124';
+      message.textContent = 'Validating license key...';
 
-        setCookie('licenseKey', key, 30);
-        setCookie('licenseTier', licenses[key], 30);
+      if (!/^[A-Z]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
+        message.style.color = '#fbbc04';
+        message.textContent = 'Invalid format. Please enter XXXX-XXXX-XXXX.';
+        return;
+      }
 
+      try {
+        const response = await fetch('licenses.json');
+        if (!response.ok) throw new Error('License database not reachable.');
+
+        const licenses = await response.json();
+
+        if (licenses[key]) {
+          message.style.color = '#188038';
+          message.textContent = 'License valid! Loading AnuraOS...';
+
+          setCookie('licenseKey', key, 30);
+          setCookie('licenseTier', licenses[key], 30);
+
+          document.getElementById('container').style.display = 'none';
+          document.getElementById('welcomeGif').style.display = 'none';
+
+          document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
+          document.getElementById('anuraosFrame').style.display = 'block';
+        } else {
+          message.style.color = '#d93025';
+          message.textContent = 'License key not recognized. Please try again.';
+        }
+      } catch (err) {
+        message.style.color = '#d93025';
+        message.textContent = 'Error validating license. Please check your internet connection.';
+        console.error(err);
+      }
+    }
+
+    window.onload = function() {
+      const savedKey = getCookie('licenseKey');
+      const savedTier = getCookie('licenseTier');
+
+      if (savedKey && savedTier) {
         document.getElementById('container').style.display = 'none';
-
+        document.getElementById('welcomeGif').style.display = 'none';
         document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
         document.getElementById('anuraosFrame').style.display = 'block';
-      } else {
-        message.style.color = '#d93025'; // red
-        message.textContent = 'License key not recognized. Please try again.';
       }
-    } catch (err) {
-      message.style.color = '#d93025';
-      message.textContent = 'Error validating license. Please check your internet connection.';
-      console.error(err);
-    }
-  }
-
-  window.onload = function() {
-    const savedKey = getCookie('licenseKey');
-    const savedTier = getCookie('licenseTier');
-
-    if (savedKey && savedTier) {
-      document.getElementById('container').style.display = 'none';
-      document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
-      document.getElementById('anuraosFrame').style.display = 'block';
-    }
-  };
-</script>
+    };
+  </script>
 
 </body>
 </html>
