@@ -4,57 +4,97 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Student Union AnuraOS Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
 <style>
+  /* Reset & base */
+  * {
+    box-sizing: border-box;
+  }
   html, body {
-    margin: 0; padding: 0;
     height: 100%;
-    width: 100%;
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #e8f0fe 0%, #ffffff 100%);
+    color: #202124;
     overflow: hidden;
-    background: #121212;
-    color: #eee;
-    font-family: Arial, sans-serif;
+  }
+
+  /* Centered container */
+  #container {
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 1rem;
   }
-  #license-form {
-    max-width: 400px;
-    width: 90%;
+
+  /* Card style */
+  #license-card {
+    background: white;
+    box-shadow: 0 8px 24px rgba(32, 33, 36, 0.28);
+    border-radius: 12px;
+    padding: 2rem 2.5rem;
+    width: 360px;
+    max-width: 90vw;
     text-align: center;
-    z-index: 1000;
   }
+
+  h1 {
+    margin: 0 0 1.25rem;
+    font-weight: 500;
+    font-size: 1.5rem;
+    color: #1a73e8; /* Anura blue accent */
+  }
+
   input {
     width: 100%;
-    padding: 12px;
-    font-size: 1.2em;
-    margin-bottom: 15px;
-    border-radius: 5px;
-    border: none;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border: 1.5px solid #dadce0;
+    border-radius: 8px;
+    transition: border-color 0.2s ease;
+    outline-offset: 2px;
+    outline-color: transparent;
+    font-weight: 400;
   }
+
+  input:focus {
+    border-color: #1a73e8;
+    outline-color: #aecbfa;
+  }
+
   button {
+    margin-top: 1.25rem;
     width: 100%;
-    padding: 12px;
-    font-size: 1.2em;
-    background: #28a745;
+    padding: 12px 0;
+    background: #1a73e8;
     border: none;
-    border-radius: 5px;
-    cursor: pointer;
+    border-radius: 8px;
     color: white;
+    font-size: 1.1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    box-shadow: 0 3px 6px rgba(26, 115, 232, 0.3);
   }
+
   button:hover {
-    background: #218838;
+    background: #155ab6;
+    box-shadow: 0 4px 12px rgba(21, 90, 182, 0.5);
   }
+
   #message {
-    margin-top: 15px;
-    min-height: 1.3em;
+    margin-top: 1rem;
+    min-height: 1.4em;
+    font-weight: 500;
   }
+
+  /* Fullscreen iframe */
   #anuraosFrame {
     position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
     border: none;
     display: none;
     z-index: 9999;
@@ -63,11 +103,13 @@
 </head>
 <body>
 
-<div id="license-form">
-  <h1>Enter Your License Key</h1>
-  <input id="licenseKey" placeholder="XXXX-XXXX-XXXX" autocomplete="off" />
-  <button onclick="validateLicense()">Access AnuraOS</button>
-  <div id="message"></div>
+<div id="container">
+  <div id="license-card">
+    <h1>Enter Your License Key</h1>
+    <input id="licenseKey" placeholder="XXXX-XXXX-XXXX" autocomplete="off" />
+    <button onclick="validateLicense()">Access AnuraOS</button>
+    <div id="message"></div>
+  </div>
 </div>
 
 <iframe id="anuraosFrame" src=""></iframe>
@@ -90,11 +132,11 @@
     const key = keyInput.value.trim().toUpperCase();
     const message = document.getElementById('message');
 
-    message.style.color = '#eee';
+    message.style.color = '#202124';
     message.textContent = 'Validating license key...';
 
     if (!/^[A-Z]{4}-[A-Z0-9]{4}-[A-Z0-9]{4}$/.test(key)) {
-      message.style.color = 'orange';
+      message.style.color = '#fbbc04'; // amber/yellowish
       message.textContent = 'Invalid format. Please enter XXXX-XXXX-XXXX.';
       return;
     }
@@ -106,35 +148,33 @@
       const licenses = await response.json();
 
       if (licenses[key]) {
-        message.style.color = '#28a745';
+        message.style.color = '#188038'; // green
         message.textContent = 'License valid! Loading AnuraOS...';
 
-        // Store license info in cookies for 30 days
         setCookie('licenseKey', key, 30);
         setCookie('licenseTier', licenses[key], 30);
 
-        document.getElementById('license-form').style.display = 'none';
+        document.getElementById('container').style.display = 'none';
+//CHANGE LINK HERE
         document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
         document.getElementById('anuraosFrame').style.display = 'block';
       } else {
-        message.style.color = 'red';
+        message.style.color = '#d93025'; // red
         message.textContent = 'License key not recognized. Please try again.';
       }
     } catch (err) {
-      message.style.color = 'red';
+      message.style.color = '#d93025';
       message.textContent = 'Error validating license. Please check your internet connection.';
       console.error(err);
     }
   }
 
-  window.onload = async function() {
+  window.onload = function() {
     const savedKey = getCookie('licenseKey');
     const savedTier = getCookie('licenseTier');
-
+//CHANGE LINK HERE
     if (savedKey && savedTier) {
-      // Optional: revalidate savedKey here if you want
-
-      document.getElementById('license-form').style.display = 'none';
+      document.getElementById('container').style.display = 'none';
       document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
       document.getElementById('anuraosFrame').style.display = 'block';
     }
