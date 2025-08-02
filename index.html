@@ -100,9 +100,10 @@
       top: 20px;
       left: 50%;
       transform: translateX(-50%);
-      max-width: 1800px;
-      max-height: 250px;
+      max-width: 240px;
+      max-height: 120px;
       border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.4);
       pointer-events: none;
       user-select: none;
       z-index: 10000;
@@ -125,7 +126,7 @@
 
   <script>
     function setCookie(name, value, days) {
-      const expires = new Date(Date.now() + days*864e5).toUTCString();
+      const expires = new Date(Date.now() + days * 864e5).toUTCString();
       document.cookie = name + '=' + encodeURIComponent(value) + '; expires=' + expires + '; path=/';
     }
 
@@ -134,6 +135,11 @@
         const parts = v.split('=');
         return parts[0] === name ? decodeURIComponent(parts[1]) : r
       }, '');
+    }
+
+    function getAnuraURLForTier(tier) {
+      if (tier === 'government') return 'https://anura-gov.vercel.app/';
+      return 'https://anura-blue.vercel.app/';
     }
 
     async function validateLicense() {
@@ -157,16 +163,19 @@
         const licenses = await response.json();
 
         if (licenses[key]) {
+          const tier = licenses[key];  // 'personal' or 'government'
+          const destinationURL = getAnuraURLForTier(tier);
+
           message.style.color = '#188038';
           message.textContent = 'License valid! Loading AnuraOS...';
 
           setCookie('licenseKey', key, 30);
-          setCookie('licenseTier', licenses[key], 30);
+          setCookie('licenseTier', tier, 30);
 
           document.getElementById('container').style.display = 'none';
           document.getElementById('welcomeGif').style.display = 'none';
 
-          document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
+          document.getElementById('anuraosFrame').src = destinationURL;
           document.getElementById('anuraosFrame').style.display = 'block';
         } else {
           message.style.color = '#d93025';
@@ -179,14 +188,17 @@
       }
     }
 
-    window.onload = function() {
+    window.onload = function () {
       const savedKey = getCookie('licenseKey');
       const savedTier = getCookie('licenseTier');
 
       if (savedKey && savedTier) {
+        const destinationURL = getAnuraURLForTier(savedTier);
+
         document.getElementById('container').style.display = 'none';
         document.getElementById('welcomeGif').style.display = 'none';
-        document.getElementById('anuraosFrame').src = 'https://anura-blue.vercel.app/';
+
+        document.getElementById('anuraosFrame').src = destinationURL;
         document.getElementById('anuraosFrame').style.display = 'block';
       }
     };
